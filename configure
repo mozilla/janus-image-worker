@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+CONFIG="config.mk"
+
+if [ -z "$CC" ]; then
+  CC="gcc"
+fi
+
+CFLAGS="$CFLAGS -O3 -Wall -std=c99"
+LDLAGS="$LDFLAGS"
+
+PNGQUANT_OPTS=""
+for i in "$@"; do
+  case $i in
+    -L*)
+      LDFLAGS="$LDFLAGS $1"
+      ;;
+    -I*)
+      CFLAGS="$CFLAGS $1"
+      ;;
+    "--with-debug")
+      PNGQUANT_OPTS="$PNGQUANT_OPTS --enable-debug"
+      CFLAGS="$CFLAGS -g -MMD -DDEBUG"
+      ;;
+    *)
+      echo "Unrecognized option '$1'."
+      exit 1
+  esac
+
+  shift
+done
+
+if [[ $OSTYPE =~ "darwin" ]]; then
+  LDFLAGS="$LDFLAGS  -lpng -ljpeg -lz -lm"
+  #CFLAGS="$CFLAGS -I/opt/libjpeg-turbo/include"
+else
+  :
+fi
+
+
+cd src/pngquant
+./configure $PNGQUANT_OPTS --without-cocoa
+cd -
+
+LDFLAGS="$LDFLAGS src/pngquant/lib/libimagequant.a"
+
+echo "CC=$CC" > $CONFIG
+echo "LDFLAGS=$LDFLAGS" >> $CONFIG
+echo "CFLAGS=$CFLAGS" >> $CONFIG
