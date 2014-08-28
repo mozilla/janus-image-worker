@@ -8,8 +8,9 @@ var tar = require('tar');
 var zlib = require('zlib');
 var fs = require('fs-extra');
 
-function exitOnError(message) {
+function exitOnError(message, err) {
   console.log(chalk.red('✗ ' + message));
+  console.log(err);
   process.exit(1);
 }
 
@@ -39,27 +40,28 @@ var mozjpegReq =
 
 function buildMozjpeg() {
   console.log(chalk.blue('✓ mozjpeg downloaded successfully'));
-  exec('cd src/mozjpeg && autoreconf -fiv && ./configure && make', function(err) {
-    if (err) {
-      exitOnError('Unable to build mozjpeg. ' + stderr);
-    }
+  exec('cd src/mozjpeg && autoreconf -fiv && ./configure && make',
+       function(err, stdout, stderr) {
+         if (err) {
+           exitOnError('Unable to build mozjpeg. ', stderr);
+         }
 
-    console.log(chalk.blue('✓ mozjpeg built successfully.'));
+         console.log(chalk.blue('✓ mozjpeg built successfully.'));
 
-    if (firstBinBuilt) {
-      buildRecompressor();
-    }
+         if (firstBinBuilt) {
+           buildRecompressor();
+         }
 
-    firstBinBuilt = true;
-  });
+         firstBinBuilt = true;
+       });
 }
 
 function buildJpegturbo() {
   console.log(chalk.blue('✓ jpeg turbo downloaded successfully'));
   exec('cd src/jpeg-turbo && autoreconf -fiv && ./configure && make',
-       function(err) {
+       function(err, stdout, stderr) {
         if (err) {
-          exitOnError('Unable to build jpeg-turbo. ' + stderr);
+          exitOnError('Unable to build jpeg-turbo. ', stderr);
         }
 
         console.log(chalk.blue('✓ jpeg-turbo built successfully.'));
@@ -73,18 +75,19 @@ function buildJpegturbo() {
 }
 
 function buildRecompressor() {
-  exec('./configure -Lsrc/jpeg-turbo/.libs -Isrc/jpeg-turbo && make', function(err) {
-    if (err) {
-      exitOnError('Unable to build image recompressor.');
-    }
+  exec('./configure -Lsrc/jpeg-turbo/.libs -Isrc/jpeg-turbo && make',
+       function(err, stdout, stderr) {
+         if (err) {
+           exitOnError('Unable to build image recompressor.', stderr);
+         }
 
-    if (process.platform == 'darwin') {
-      fs.copySync('src/mozjpeg/.libs/libjpeg.dylib', 'libmozjpeg.dylib');
-    } else {
-      fs.copySync('src/mozjpeg/.libs/libjpeg.so', 'libmozjpeg.so');
-    }
+         if (process.platform == 'darwin') {
+           fs.copySync('src/mozjpeg/.libs/libjpeg.dylib', 'libmozjpeg.dylib');
+         } else {
+           fs.copySync('src/mozjpeg/.libs/libjpeg.so', 'libmozjpeg.so');
+         }
 
-    console.log(chalk.green('\n✓✓✓ image recompressor built successfully ✓✓✓'));
-    process.exit(0);
-  });
+         console.log(chalk.green('\n✓✓✓ image recompressor built successfully ✓✓✓'));
+         process.exit(0);
+       });
 }

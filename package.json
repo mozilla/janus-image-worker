@@ -1,6 +1,6 @@
 {
-  "name": "janus-image-recompressor",
-  "version": "0.2.1",
+  "name": "janus-image-worker",
+  "version": "0.1.0",
   "description": "Image recompression tool for Janus",
   "license": "MIT",
   "author": {
@@ -18,9 +18,7 @@
     "node/index.js"
   ],
   "dependencies": {
-    "bin-build": "^0.1.0",
     "chalk": "^0.4.0",
-    "download": "^1.0.2",
     "fs-extra": "^0.11.0",
     "tar": "^1.0.1"
   }
