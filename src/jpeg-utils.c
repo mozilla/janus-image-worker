@@ -1,5 +1,8 @@
 #include "jpeg-utils.h"
 
+#include <stddef.h>
+#include <unistd.h>
+
 int should_recompress(s_compress_options *opts, int quality)
 {
   if (quality <= 75) {

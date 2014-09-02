@@ -57,7 +57,12 @@ int main(int argc, char **argv)
 
   // We read the beginning of the magic number and put it back in the stream so
   // that magic number checks from the libraries don't fail.
-  fread(magic, 1, 2, stdin);
+  if (fread(magic, 1, 2, stdin) != 2)
+  {
+    LOG_ERROR("Unable to read magic number.");
+    go_through();
+  }
+
   ungetc(magic[1], stdin);
   ungetc(magic[0], stdin);
 

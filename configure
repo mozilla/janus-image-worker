@@ -6,9 +6,6 @@ if [ -z "$CC" ]; then
   CC="gcc"
 fi
 
-CFLAGS="$CFLAGS -O3 -Wall -std=c99"
-LDLAGS="$LDFLAGS"
-
 PNGQUANT_OPTS=""
 for i in "$@"; do
   case $i in
@@ -30,9 +27,14 @@ for i in "$@"; do
   shift
 done
 
+CFLAGS="$CFLAGS -O3 -Wall -std=c99"
+LDFLAGS="$LDFLAGS src/pngquant/lib/libimagequant.a -lpng -ljpeg -lz -lm"
+
 if [[ $OSTYPE =~ "darwin" ]]; then
-  LDFLAGS="$LDFLAGS  -lpng -ljpeg -lz -lm"
-  #CFLAGS="$CFLAGS -I/opt/libjpeg-turbo/include"
+  :
+elif [[ $OSTYPE =~ "linux" ]]; then
+  LDFLAGS="$LDFLAGS -ldl -Wl,-rpath=src/jpeg-turbo/.libs"
+  CFLAGS="$CFLAGS -D_BSD_SOURCE"
 else
   :
 fi
@@ -41,8 +43,6 @@ fi
 cd src/pngquant
 ./configure $PNGQUANT_OPTS --without-cocoa
 cd -
-
-LDFLAGS="$LDFLAGS src/pngquant/lib/libimagequant.a"
 
 echo "CC=$CC" > $CONFIG
 echo "LDFLAGS=$LDFLAGS" >> $CONFIG

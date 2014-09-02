@@ -1,6 +1,8 @@
 #ifndef UTILS_H_
 # define UTILS_H_
 
+# include <stdio.h>
+
 # define BUF_SIZE 8192
 # define STDIN_BUFFER_SIZE 65536
 
