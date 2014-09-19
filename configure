@@ -33,7 +33,7 @@ LDFLAGS="$LDFLAGS src/pngquant/lib/libimagequant.a -lpng -ljpeg -lz -lm"
 if [[ $OSTYPE =~ "darwin" ]]; then
   :
 elif [[ $OSTYPE =~ "linux" ]]; then
-  LDFLAGS="$LDFLAGS -ldl -Wl,-rpath=src/jpeg-turbo/.libs"
+  LDFLAGS="$LDFLAGS -ldl"
   CFLAGS="$CFLAGS -D_BSD_SOURCE"
 else
   :
