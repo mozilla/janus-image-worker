@@ -1,3 +1,4 @@
 'use strict';
 
-module.exports = __dirname + '/image-worker';
+module.exports.bin = __dirname + '/image-worker';
+module.exports.libraryPath = __dirname;
