@@ -53,6 +53,9 @@ int main(int argc, char **argv)
 
   parse_opts(argc, argv, &opts);
 
+  // We set our own stdin buffer so we are sure it's big enough for images
+  // operations. For example this is useful for sending the original JPEG if
+  // the quality is already low (by seeking to the beginning of the buffer).
   setbuffer(stdin, buf, STDIN_BUFFER_SIZE);
 
   // We read the beginning of the magic number and put it back in the stream so

@@ -43,20 +43,32 @@ static void load_mozjpeg_fcts(void)
     go_through();
   }
 
-  mozjpeg_fcts.jpeg_std_error = (struct jpeg_error_mgr *(*)())dlsym(handle, "jpeg_std_error");
-  mozjpeg_fcts.jpeg_CreateCompress = (void (*)())dlsym(handle, "jpeg_CreateCompress");
-  mozjpeg_fcts.jpeg_CreateDecompress = (void (*)())dlsym(handle, "jpeg_CreateDecompress");
-  mozjpeg_fcts.jpeg_set_defaults = (void (*)())dlsym(handle, "jpeg_set_defaults");
-  mozjpeg_fcts.jpeg_read_header = (void (*)())dlsym(handle, "jpeg_read_header");
+  mozjpeg_fcts.jpeg_std_error = (struct jpeg_error_mgr *(*)())
+    dlsym(handle, "jpeg_std_error");
+  mozjpeg_fcts.jpeg_CreateCompress = (void (*)())
+    dlsym(handle, "jpeg_CreateCompress");
+  mozjpeg_fcts.jpeg_CreateDecompress = (void (*)())
+    dlsym(handle, "jpeg_CreateDecompress");
+  mozjpeg_fcts.jpeg_set_defaults = (void (*)())
+    dlsym(handle, "jpeg_set_defaults");
+  mozjpeg_fcts.jpeg_read_header = (void (*)())
+    dlsym(handle, "jpeg_read_header");
   mozjpeg_fcts.jpeg_stdio_dest = (void (*)())dlsym(handle, "jpeg_stdio_dest");
   mozjpeg_fcts.jpeg_stdio_src = (void (*)())dlsym(handle, "jpeg_stdio_src");
-  mozjpeg_fcts.jpeg_set_quality = (void (*)())dlsym(handle, "jpeg_set_quality");
-  mozjpeg_fcts.jpeg_start_compress = (void (*)())dlsym(handle, "jpeg_start_compress");
-  mozjpeg_fcts.jpeg_start_decompress = (void (*)())dlsym(handle, "jpeg_start_decompress");
-  mozjpeg_fcts.jpeg_read_scanlines = (JDIMENSION (*)())dlsym(handle, "jpeg_read_scanlines");
-  mozjpeg_fcts.jpeg_write_scanlines = (JDIMENSION (*)())dlsym(handle, "jpeg_write_scanlines");
-  mozjpeg_fcts.jpeg_finish_compress = (void (*)())dlsym(handle, "jpeg_finish_compress");
-  mozjpeg_fcts.jpeg_finish_decompress = (void (*)())dlsym(handle, "jpeg_finish_decompress");
+  mozjpeg_fcts.jpeg_set_quality = (void (*)())
+    dlsym(handle, "jpeg_set_quality");
+  mozjpeg_fcts.jpeg_start_compress = (void (*)())
+    dlsym(handle, "jpeg_start_compress");
+  mozjpeg_fcts.jpeg_start_decompress = (void (*)())
+    dlsym(handle, "jpeg_start_decompress");
+  mozjpeg_fcts.jpeg_read_scanlines = (JDIMENSION (*)())
+    dlsym(handle, "jpeg_read_scanlines");
+  mozjpeg_fcts.jpeg_write_scanlines = (JDIMENSION (*)())
+    dlsym(handle, "jpeg_write_scanlines");
+  mozjpeg_fcts.jpeg_finish_compress = (void (*)())
+    dlsym(handle, "jpeg_finish_compress");
+  mozjpeg_fcts.jpeg_finish_decompress = (void (*)())
+    dlsym(handle, "jpeg_finish_decompress");
 }
 
 void recompress_mozjpeg(s_compress_options *compress_opts)
@@ -73,10 +85,14 @@ void recompress_mozjpeg(s_compress_options *compress_opts)
   cinfo_in.err = mozjpeg_fcts.jpeg_std_error(&jerr);
   cinfo_out.err = mozjpeg_fcts.jpeg_std_error(&jerr);
 
-  mozjpeg_fcts.jpeg_CreateCompress(&cinfo_out, JPEG_LIB_VERSION, sizeof(struct jpeg_compress_struct));
+  mozjpeg_fcts.jpeg_CreateCompress(&cinfo_out,
+                                   JPEG_LIB_VERSION,
+                                   sizeof(struct jpeg_compress_struct));
   mozjpeg_fcts.jpeg_stdio_dest(&cinfo_out, stdout);
 
-  mozjpeg_fcts.jpeg_CreateDecompress(&cinfo_in, JPEG_LIB_VERSION, sizeof(struct jpeg_decompress_struct));
+  mozjpeg_fcts.jpeg_CreateDecompress(&cinfo_in,
+                                     JPEG_LIB_VERSION,
+                                     sizeof(struct jpeg_decompress_struct));
   mozjpeg_fcts.jpeg_stdio_src(&cinfo_in, stdin);
 
   mozjpeg_fcts.jpeg_read_header(&cinfo_in, 1);

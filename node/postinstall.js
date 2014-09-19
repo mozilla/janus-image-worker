@@ -82,9 +82,9 @@ function buildRecompressor() {
          }
 
          if (process.platform == 'darwin') {
-           fs.copySync('src/mozjpeg/.libs/libjpeg.dylib', 'libmozjpeg.dylib');
+           fs.copySync('src/mozjpeg/.libs/libturbojpeg.0.dylib', 'libmozjpeg.dylib');
          } else {
-           fs.copySync('src/mozjpeg/.libs/libjpeg.so', 'libmozjpeg.so');
+           fs.copySync('src/mozjpeg/.libs/libturbojpeg.so.0.1.0', 'libmozjpeg.so');
          }
 
          console.log(chalk.green('\n✓✓✓ image recompressor built successfully ✓✓✓'));
