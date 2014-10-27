@@ -1,12 +1,12 @@
 {
   "name": "janus-image-worker",
-  "version": "0.1.0",
-  "description": "Image recompression tool for Janus",
+  "version": "0.1.1",
+  "description": "Image re-encoding worker for the Janus proxy",
   "license": "MIT",
-  "author": {
-    "name": "Sylvain Cleymans",
-    "email": "sylvain.cleymans@gmail.com"
-  },
+  "author":  "Sylvain Cleymans <sylvain.cleymans@gmail.com>",
+  "contributors": [
+    "Eugen Sawin <esawin@mozilla.com>"
+  ],
   "engines": {
     "node": ">=0.10.0"
   },

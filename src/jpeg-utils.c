@@ -2,21 +2,19 @@
 
 #include <stddef.h>
 #include <unistd.h>
+#include <math.h>
 
 int should_recompress(s_compress_options *opts, int quality)
 {
-  if (quality <= 75) {
-    return 0;
-  }
-
   return 1;
 }
 
 int compute_new_quality(s_compress_options *opts, int quality)
 {
+  int min_quality = 30;
   int new_quality = 75;
 
-  return new_quality;
+  return fmax(min_quality, fmin(quality, new_quality));
 }
 
 int JPEGGetImageQuality(struct jpeg_decompress_struct *jpeg_info)
