@@ -28,7 +28,7 @@ for i in "$@"; do
 done
 
 CFLAGS="$CFLAGS -O3 -Wall -std=c99"
-LDFLAGS="$LDFLAGS src/pngquant/lib/libimagequant.a -lpng -ljpeg -lz -lm"
+LDFLAGS="$LDFLAGS src/pngquant/lib/libimagequant.a -lpng -ljpeg -lz -lm -llcms2"
 
 if [[ $OSTYPE =~ "darwin" ]]; then
   :
