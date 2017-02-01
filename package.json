@@ -13,6 +13,10 @@
   "scripts": {
     "postinstall": "node node/postinstall.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mozilla/janus-image-worker"
+  },
   "dependencies": {
     "chalk": "^0.4.0",
     "fs-extra": "^0.11.1",
